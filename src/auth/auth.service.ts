@@ -5,7 +5,7 @@ import { parse, User, validate } from '@telegram-apps/init-data-node';
 @Injectable()
 export class AuthService {
     async loginIn({initData}: LoginInDto){
-        console.log("Проверка")
+
         try{
             validate(initData,process.env.BOT_TOKEN)
             const parsedData= parse(initData)
