@@ -14,7 +14,9 @@ export class AuthService {
 
             return {
                 user: await this.userService.add_profile(parsedData.user),
-                token: await this.jwtService.signAsync({ userId: parsedData.user.id })
+                token: await this.jwtService.signAsync({ userId: parsedData.user.id },{
+                    secret: process.env.BOT_TOKEN
+                })
             }
         } catch (er) {
             console.log(er)
