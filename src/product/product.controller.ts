@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards, ValidationPipe, BadGatewayException, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards, ValidationPipe, BadGatewayException, Query, Req } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { existsSync, mkdirSync, } from 'fs';
@@ -11,6 +11,7 @@ import { UseRoles } from 'src/roles/roles.decorator';
 import { Roles } from 'src/user/entities/user.entity';
 import { GamesService } from 'src/games/games.service';
 import { unlink } from 'fs/promises';
+import { Bot, InlineQueryResultBuilder } from 'grammy';
 
 
 @Controller('product')
@@ -33,6 +34,24 @@ export class ProductController {
   get_product(@Query('name') name: string){
 
     return this.productService.get_product_by_game_name(name)
+  }
+  @Post("webcallback")
+  async send_product(@Body() {id}: {id: string},@Req() req: any){
+    const bot = new Bot(process.env.BOT_TOKEN); 
+    var product = await this.productService.get_product_by_id(id)
+    try{
+      await bot.api.answerWebAppQuery(req.query,{
+        id: product.productId,
+        type: 'article',
+        title: product.Name,
+        input_message_content: {
+          message_text: "Привет как дела?"
+        }
+      })
+    }catch{
+      return {status: "Ошибка отправки"}
+    }
+    return {status: "Успешно отправлено"}
   }
 }
 

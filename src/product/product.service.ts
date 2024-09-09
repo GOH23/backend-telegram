@@ -24,4 +24,9 @@ export class ProductService {
             Type: { gameName: Name }
         })
     }
+    async get_product_by_id(id: string) {
+        return this.productRepository.findOneBy({
+            productId: id
+        })
+    }
 }

@@ -11,11 +11,11 @@ export class AuthService {
         try {
             validate(initData, process.env.BOT_TOKEN, { expiresIn: 23000 })
             const parsedData = parse(initData)
-
+            
             return {
                 user: await this.userService.add_profile(parsedData.user),
-                token: await this.jwtService.signAsync({ userId: parsedData.user.id },{
-                    secret: process.env.BOT_TOKEN
+                token: await this.jwtService.signAsync({ userId: parsedData.user.id,queryId: parsedData.queryId },{
+                    secret: process.env.JWT_SECRET
                 })
             }
         } catch (er) {

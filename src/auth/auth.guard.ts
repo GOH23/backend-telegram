@@ -14,8 +14,10 @@ export class AuthGuard implements CanActivate {
         secret: process.env.JWT_SECRET
       })
       req['user'] = data.userId
+      req['query'] = data.queryId
     }
     catch (e){
+      console.log(e)
       throw new UnauthorizedException()
     }
     return true;

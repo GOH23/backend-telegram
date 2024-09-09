@@ -8,11 +8,10 @@ export class UserService {
   constructor (@InjectRepository(User) private readonly userRepository : Repository<User>){
     
   }
-  add_profile({id,allowsWriteToPm,firstName,
+  async add_profile({id,allowsWriteToPm,firstName,
     languageCode,
     username}: TGuser){
-    
-    return this.userRepository.exists({where: {userId: id}}) ? this.userRepository.findOne({where: {userId: id}}) : this.userRepository.save({
+    return await this.userRepository.exists({where: {userId: id}}) ? this.userRepository.findOne({where: {userId: id}}) : this.userRepository.save({
       userId: id,
       firstName: firstName,
       languageCode: languageCode,
