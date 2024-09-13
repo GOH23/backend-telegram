@@ -21,10 +21,9 @@ export class ProductController {
   @Post()
   @UseRoles([Roles.Admin])
   @UseGuards(RolesGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body: CreateProductDto) {
+  async uploadFile( @Body() body: CreateProductDto) {
     try{
-      return this.productService.add_product(body,file.path)
+      return this.productService.add_product(body)
     }catch{
       
       throw new BadGatewayException()

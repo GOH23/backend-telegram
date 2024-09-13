@@ -10,32 +10,10 @@ import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage, MulterError } from 'multer';
 import { extname } from 'path';
 import { existsSync, mkdirSync } from 'fs';
+import { ImageModule } from 'src/image/image.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product]), MulterModule.register({
-    storage: diskStorage({
-      destination(req, file, callback) {
-        const UploadPath = `./public/`
-
-        if (!existsSync(UploadPath)) {
-          mkdirSync(UploadPath);
-        }
-        callback(null, UploadPath)
-      },
-      filename(req, file, callback) {
-
-        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
-        return callback(null, `${randomName}${extname(file.originalname)}`)
-      },
-    }),
-    fileFilter(req, file, callback) {
-      if (file.originalname.match(/^.*\.(jpg|webp|png|jpeg)$/))
-        callback(null, true);
-      else {
-        callback(new MulterError('LIMIT_UNEXPECTED_FILE', 'file'), false);
-      }
-    },
-  }), GamesModule, UserModule],
+  imports: [TypeOrmModule.forFeature([Product]),GamesModule,ImageModule],
   controllers: [ProductController],
   providers: [ProductService],
 })

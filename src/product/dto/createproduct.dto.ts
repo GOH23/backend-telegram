@@ -12,5 +12,6 @@ export class CreateProductDto{
     @IsString()
     @Length(3,100)
     TypeName: string
-
+    @IsNotEmpty()
+    ImagePath: string
 }
