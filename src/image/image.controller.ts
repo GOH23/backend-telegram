@@ -9,7 +9,7 @@ import { CreateProductDto } from 'src/product/dto/createproduct.dto';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
 
-@Controller('image')
+@Controller('images')
 @UseGuards(AuthGuard)
 export class ImageController {
   constructor(private readonly imageService: ImageService) { }
@@ -32,7 +32,7 @@ export class ImageController {
   getAll() {
     return this.imageService.getAllImages();
   }
-  @Get(":name")
+  @Get("image/:name")
   getFile(@Param("name") name: string, @Response() res: any) {
 
     return res.sendFile(join(process.cwd(), 'public', name));
