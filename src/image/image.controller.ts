@@ -10,25 +10,24 @@ import { RolesGuard } from 'src/roles/roles.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('images')
-@UseGuards(AuthGuard)
 export class ImageController {
   constructor(private readonly imageService: ImageService) { }
   @Post()
   @UseRoles([Roles.Admin])
-  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard,RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return this.imageService.SaveImage(file.path)
+    return this.imageService.SaveImage(file.filename)
   }
   @Delete()
   @UseRoles([Roles.Admin])
-  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard,RolesGuard)
   async deleteFile(@Body() {ImagePath}: {ImagePath: string}) {
     return this.imageService.DeleteImageFromPath(ImagePath)
   }
   @Get()
   @UseRoles([Roles.Admin])
-  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard,RolesGuard)
   getAll() {
     return this.imageService.getAllImages();
   }
