@@ -26,7 +26,12 @@ export class ImageController {
   async deleteFile(@Body() {ImagePath}: {ImagePath: string}) {
     return this.imageService.DeleteImageFromPath(ImagePath)
   }
-
+  @Get("all")
+  @UseRoles([Roles.Admin])
+  @UseGuards(RolesGuard)
+  getAll() {
+    return this.imageService.getAllImages();
+  }
   @Get(":name")
   getFile(@Param("name") name: string, @Response() res: any) {
 

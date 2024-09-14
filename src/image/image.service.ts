@@ -20,6 +20,9 @@ export class ImageService {
             imagePath: path
         })
     }
+    async getAllImages(){
+        return this.ImageRepository.find()
+    }
     async DeleteImageFromPath(path: string ){
         unlink(path,(err)=>{
             console.log(err)
