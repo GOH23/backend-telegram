@@ -21,36 +21,38 @@ export class ProductController {
   @Post()
   @UseRoles([Roles.Admin])
   @UseGuards(RolesGuard)
-  async uploadFile( @Body() body: CreateProductDto) {
-    try{
+  async uploadFile(@Body() body: CreateProductDto) {
+    try {
       return this.productService.add_product(body)
-    }catch{
-      
+    } catch {
+
       throw new BadGatewayException()
     }
   }
   @Get()
-  get_product(@Query('name') name: string){
+  get_product(@Query('name') name: string) {
 
     return this.productService.get_product_by_game_name(name)
   }
   @Post("webcallback")
-  async send_product(@Body() {id}: {id: string},@Req() req: any){
-    const bot = new Bot(process.env.BOT_TOKEN); 
+  async send_product(@Body() { id }: { id: string }, @Req() req: any) {
+    const bot = new Bot(process.env.BOT_TOKEN);
     var product = await this.productService.get_product_by_id(id)
-    try{
-      await bot.api.answerWebAppQuery(req.query,{
-        id: product.productId,
-        type: 'article',
-        title: product.Name,
-        input_message_content: {
-          message_text: "Привет как дела?"
+    try {
+      await bot.api.answerInlineQuery(req.query, [
+        {
+          id: product.productId,
+          type: 'article',
+          title: product.Name,
+          input_message_content: {
+            message_text: "Привет как дела?"
+          }
         }
-      })
-    }catch{
-      return {status: "Ошибка отправки"}
+      ])
+    } catch {
+      return { status: "Ошибка отправки" }
     }
-    return {status: "Успешно отправлено"}
+    return { status: "Успешно отправлено" }
   }
 }
 
