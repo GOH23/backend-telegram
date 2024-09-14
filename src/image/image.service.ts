@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Image } from './entities/image.entity';
 import { Repository } from 'typeorm';
 import { unlink } from 'fs';
-
+import { join } from 'path';
 @Injectable()
 export class ImageService {
     /**
@@ -24,7 +24,7 @@ export class ImageService {
         return this.ImageRepository.find()
     }
     async DeleteImageFromPath(path: string ){
-        unlink(path,(err)=>{
+        unlink(join(process.cwd(), 'public', path),(err)=>{
             console.log(err)
         })
         return this.ImageRepository.delete({

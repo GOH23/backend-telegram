@@ -5,7 +5,6 @@ import { join } from 'path';
 import { UseRoles } from 'src/roles/roles.decorator';
 import { Roles } from 'src/user/entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateProductDto } from 'src/product/dto/createproduct.dto';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
 
