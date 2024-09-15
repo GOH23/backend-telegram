@@ -23,8 +23,6 @@ export class ProductService {
         return this.productRepository.save(product);
     }
     async get_product_by_game_name(Name: string) {
-
-
         return this.productRepository.find({
             where: {
                 Type: { gameName: Name },

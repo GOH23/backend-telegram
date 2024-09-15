@@ -9,9 +9,8 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { UseRoles } from 'src/roles/roles.decorator';
 import { Roles } from 'src/user/entities/user.entity';
-import { GamesService } from 'src/games/games.service';
-import { unlink } from 'fs/promises';
-import { Bot, InlineKeyboard, InlineQueryResultBuilder } from 'grammy';
+
+import { Bot, InlineKeyboard } from 'grammy';
 
 
 @Controller('product')
@@ -31,8 +30,7 @@ export class ProductController {
   }
   @Get()
   get_product(@Query("name") query: any) {
-    console.log(query)
-    return this.productService.get_product_by_game_name("")
+    return this.productService.get_product_by_game_name(query)
   }
   @Post("webcallback")
   async send_product(@Body() { id }: { id: string }, @Req() req: any) {
