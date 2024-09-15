@@ -11,10 +11,11 @@ export class AuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest()
     try{
       const data = await this.jwtService.verifyAsync(this.extractTokenFromHeader(req),{
-        secret: process.env.JWT_SECRET
+        secret: process.env.JWT_SECRET,
+        maxAge: "1h"
       })
       req['user'] = data.userId
-      req['query'] = data.queryId
+      req['queryId'] = data.queryId
     }
     catch (e){
       console.log(e)

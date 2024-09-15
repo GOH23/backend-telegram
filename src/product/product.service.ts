@@ -11,10 +11,10 @@ import { ImageService } from 'src/image/image.service';
 
 @Injectable()
 export class ProductService {
-    constructor(@InjectRepository(Product) private readonly productRepository: Repository<Product>, 
-    private readonly gameService: GamesService,
-private readonly imageService: ImageService) { }
-    async add_product({ Name, Value, TypeName,ImagePath }: CreateProductDto) {
+    constructor(@InjectRepository(Product) private readonly productRepository: Repository<Product>,
+        private readonly gameService: GamesService,
+        private readonly imageService: ImageService) { }
+    async add_product({ Name, Value, TypeName, ImagePath }: CreateProductDto) {
         const product = new Product();
         product.Name = Name
         product.Type = await this.gameService.find_by_name(TypeName)
@@ -23,9 +23,13 @@ private readonly imageService: ImageService) { }
         return this.productRepository.save(product);
     }
     async get_product_by_game_name(Name: string) {
-        return this.productRepository.findBy({
-            Type: { gameName: Name },
-            Blocked: false
+
+
+        return this.productRepository.find({
+            where: {
+                Type: { gameName: Name },
+                Blocked: false,
+            },relations: {Type: true,Image: true}
         })
     }
     async get_product_by_id(id: string) {

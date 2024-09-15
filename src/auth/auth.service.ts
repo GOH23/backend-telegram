@@ -9,13 +9,13 @@ export class AuthService {
     constructor(private jwtService: JwtService, private userService: UserService) { }
     async loginIn({ initData }: LoginInDto) {
         try {
-            validate(initData, process.env.BOT_TOKEN, { expiresIn: 23000 })
+            validate(initData, process.env.BOT_TOKEN, { expiresIn: 3600 })
             const parsedData = parse(initData)
             
             return {
                 user: await this.userService.add_profile(parsedData.user),
                 token: await this.jwtService.signAsync({ userId: parsedData.user.id,queryId: parsedData.queryId },{
-                    secret: process.env.JWT_SECRET
+                    secret: process.env.JWT_SECRET,
                 })
             }
         } catch (er) {

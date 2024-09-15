@@ -11,7 +11,7 @@ import { UseRoles } from 'src/roles/roles.decorator';
 import { Roles } from 'src/user/entities/user.entity';
 import { GamesService } from 'src/games/games.service';
 import { unlink } from 'fs/promises';
-import { Bot, InlineQueryResultBuilder } from 'grammy';
+import { Bot, InlineKeyboard, InlineQueryResultBuilder } from 'grammy';
 
 
 @Controller('product')
@@ -30,26 +30,30 @@ export class ProductController {
     }
   }
   @Get()
-  get_product(@Query('name') name: string) {
-
-    return this.productService.get_product_by_game_name(name)
+  get_product(@Query("name") query: any) {
+    console.log(query)
+    return this.productService.get_product_by_game_name("")
   }
   @Post("webcallback")
   async send_product(@Body() { id }: { id: string }, @Req() req: any) {
     const bot = new Bot(process.env.BOT_TOKEN);
     var product = await this.productService.get_product_by_id(id)
     try {
-      await bot.api.answerInlineQuery(req.query, [
+      await bot.api.answerWebAppQuery(req.queryId, 
         {
           id: product.productId,
           type: 'article',
           title: product.Name,
+          
+          thumbnail_url: `https://1640350c0d13.vps.myjino.ru/images/image/${product.Image.imagePath}`,
           input_message_content: {
-            message_text: "Привет как дела?"
-          }
+            message_text: `Вы выбрали товар: ${product.Name}\nстоимостью ${product.Value} руб`
+          },
+          reply_markup: InlineKeyboard.from([[{text: "Подтвердить заказ",callback_data: `p_${product.productId}`}]])
         }
-      ])
-    } catch {
+      )
+    } catch (e) {
+      console.log(e)
       return { status: "Ошибка отправки" }
     }
     return { status: "Успешно отправлено" }
