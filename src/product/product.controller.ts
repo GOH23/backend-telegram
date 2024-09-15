@@ -47,7 +47,7 @@ export class ProductController {
           input_message_content: {
             message_text: `Вы выбрали товар: ${product.Name}\nстоимостью ${product.Value} руб`
           },
-          reply_markup: InlineKeyboard.from([[{text: "Подтвердить заказ",callback_data: `p_${product.productId}`}]])
+          reply_markup: InlineKeyboard.from([[{text: "Подтвердить заказ",callback_data: `${product.productId}`}]])
         }
       )
     } catch (e) {
