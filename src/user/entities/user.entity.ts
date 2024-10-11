@@ -18,4 +18,6 @@ export class User {
     username: string
     @Column({type: 'enum',enum: Roles,default: Roles.User,select: true})
     roles: Roles
+    @Column()
+    balance: number
 }

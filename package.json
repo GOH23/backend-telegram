@@ -26,6 +26,7 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/throttler": "^6.2.1",
     "@nestjs/typeorm": "^10.0.2",
     "@telegram-apps/init-data-node": "^1.0.4",
     "class-transformer": "^0.5.1",
@@ -33,9 +34,11 @@
     "csurf": "^1.11.0",
     "grammy": "^1.30.0",
     "mysql": "^2.18.1",
+    "nestjs-rate-limiter": "^3.1.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.7",
+    "telegram": "^2.25.4",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {

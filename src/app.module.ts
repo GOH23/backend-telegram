@@ -12,21 +12,22 @@ import { ProductModule } from './product/product.module';
 import { Games } from './games/entities/game.entity';
 import { Product } from './product/entities/product.entity';
 import { Image } from './image/entities/image.entity';
+import { TelegramApiModule } from './telegram_api/telegram_api.module';
 
 
 
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal: true}),TypeOrmModule.forRoot({
+  imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot({
     type: 'mysql',
     database: process.env.DB_NAME,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
-    entities: [User,Games,Product,Image],
+    entities: [User, Games, Product, Image],
     synchronize: true
-  }),AuthModule, UserModule, ImageModule, GamesModule, ProductModule],
+  }), AuthModule, UserModule, ImageModule, GamesModule, ProductModule, TelegramApiModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
