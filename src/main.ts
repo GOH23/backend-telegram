@@ -12,13 +12,14 @@ const options = {
 }
 export var client: TelegramClient = new TelegramClient(new StringSession(process.env.SESSION), Number(process.env.API_ID), process.env.API_HASH, {
   connectionRetries: 5,
+  useIPV6: true
 })
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix("api/v1")
   app.enableCors(options);
-  await client.connect()
-  await client.getDialogs()
+  //await client.connect()
+  //await client.getDialogs()
   app.useGlobalPipes(new ValidationPipe())
   await app.listen(3001);
 }
